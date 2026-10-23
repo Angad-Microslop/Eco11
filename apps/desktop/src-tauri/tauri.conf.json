@@ -9,9 +9,11 @@
   "app": {
     "windows": [
       {
-        "title": "Eco11",
-        "width": 1200,
-        "height": 800
+        "title": "Eco11 - Apple Ecosystem Bridge",
+        "width": 1280,
+        "height": 800,
+        "transparent": false,
+        "decorations": true
       }
     ],
     "security": {
@@ -21,6 +23,8 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": []
+    "icon": [
+      "icons/icon.ico"
+    ]
   }
 }
