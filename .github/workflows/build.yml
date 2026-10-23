@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-windows:
-    name: Build Windows (.exe) & Package
+    name: Build Windows App
     runs-on: windows-latest
     
     steps:
@@ -17,28 +17,36 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
-      - name: Install Rust stable
+      - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Node dependencies
+        run: npm ci || npm install
 
-      - name: Build Tauri Desktop (.exe)
-        run: npm run tauri build
+      - name: Build Tauri App
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: "apps/desktop"
+          tagName: v1.0.0
+          releaseName: "Eco11 v1.0.0"
+          releaseBody: "Automated Eco11 release build"
+          releaseDraft: false
+          prerelease: false
 
       - name: Create Release Zip Package
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path "dist_release"
-          # Copy built executable / installer
-          Get-ChildItem -Recurse -Filter "*.exe" "apps/desktop/src-tauri/target/release" | Copy-Item -Destination "dist_release"
-          # Create zip
-          Compress-Archive -Path "dist_release\*" -DestinationPath "Eco11_Release.zip" -Force
-          
+          Get-ChildItem -Recurse -Filter "*.exe" "apps/desktop/src-tauri/target/release" | Copy-Item -Destination "dist_release" -ErrorAction SilentlyContinue
+          Get-ChildItem -Recurse -Filter "*.msi" "apps/desktop/src-tauri/target/release" | Copy-Item -Destination "dist_release" -ErrorAction SilentlyContinue
+          Compress-Archive -Path "dist_release\*" -DestinationPath "Eco11_Windows_Release.zip" -Force
+
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Eco11-Windows-Release
-          path: Eco11_Release.zip
+          path: Eco11_Windows_Release.zip
