@@ -23,10 +23,10 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Build Desktop Executable
-        run: npm run tauri build
+        run: npx tauri build
 
       - name: Package Executable into Zip
         shell: powershell
