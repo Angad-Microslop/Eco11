@@ -11,9 +11,7 @@
       {
         "title": "Eco11 - Apple Ecosystem Bridge",
         "width": 1280,
-        "height": 800,
-        "transparent": false,
-        "decorations": true
+        "height": 800
       }
     ],
     "security": {
@@ -22,9 +20,6 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
-    "icon": [
-      "icons/icon.ico"
-    ]
+    "targets": "all"
   }
 }
