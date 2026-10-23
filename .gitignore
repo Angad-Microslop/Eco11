@@ -1,0 +1,6 @@
+node_modules/
+target/
+apps/desktop/src-tauri/target/
+dist/
+dist_release/
+.DS_Store

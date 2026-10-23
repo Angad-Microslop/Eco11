@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -22,22 +22,13 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Node dependencies
-        run: npm ci || npm install
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
 
-      - name: Build Tauri App
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          projectPath: "apps/desktop"
-          tagName: v1.0.0
-          releaseName: "Eco11 v1.0.0"
-          releaseBody: "Automated Eco11 release build"
-          releaseDraft: false
-          prerelease: false
+      - name: Build Desktop Executable
+        run: npm run tauri build
 
-      - name: Create Release Zip Package
+      - name: Package Executable into Zip
         shell: powershell
         run: |
           New-Item -ItemType Directory -Force -Path "dist_release"
