@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/eco11-crypto-core",
+    "crates/eco11-protocol",
+    "apps/desktop/src-tauri",
+    "apps/mobile/src-tauri",
+]
+exclude = []
+
+[workspace.dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

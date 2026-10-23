@@ -1,0 +1,23 @@
+{
+  "name": "eco11",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Eco11 - Cross-platform Apple ecosystem bridge for Windows and Android",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "tauri": "tauri",
+    "build:desktop": "npm --prefix apps/desktop run build",
+    "build:mobile": "npm --prefix apps/mobile run build"
+  },
+  "keywords": [
+    "tauri",
+    "ecosystem",
+    "windows",
+    "android"
+  ],
+  "author": "Angel",
+  "license": "MIT"
+}

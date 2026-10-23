@@ -1,0 +1,23 @@
+[package]
+name = "eco11-crypto-core"
+version = "0.1.0"
+edition = "2021"
+authors = ["Eco11"]
+description = "X25519 ECDH + AES-256-GCM session crypto for Eco11."
+license = "MIT"
+
+[dependencies]
+x25519-dalek = { version = "2", features = ["serde"] }
+aes-gcm = "0.10"
+hkdf = "0.11"
+hmac = "0.12"
+sha2 = "0.10"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+zeroize = { version = "1", features = ["derive"] }
+
+[lib]
+name = "eco11_crypto_core"
+path = "src/lib.rs"

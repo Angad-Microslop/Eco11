@@ -1,0 +1,44 @@
+name: Build Eco11 Release
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build Windows (.exe) & Package
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Tauri Desktop (.exe)
+        run: npm run tauri build
+
+      - name: Create Release Zip Package
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Force -Path "dist_release"
+          # Copy built executable / installer
+          Get-ChildItem -Recurse -Filter "*.exe" "apps/desktop/src-tauri/target/release" | Copy-Item -Destination "dist_release"
+          # Create zip
+          Compress-Archive -Path "dist_release\*" -DestinationPath "Eco11_Release.zip" -Force
+          
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Eco11-Windows-Release
+          path: Eco11_Release.zip
